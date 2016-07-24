@@ -5,7 +5,7 @@ USE Planner;
 
 CREATE TABLE Users (
   id INT AUTO_INCREMENT not null,
-  username VARCHAR(16) not null,
+  username VARCHAR(16) not null UNIQUE,
   password VARCHAR(255) not null,
   firstName VARCHAR(16),
   lastName VARCHAR(16),

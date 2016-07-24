@@ -24,4 +24,6 @@ router.get('/PhoneSearchYelp', controller.api.PhoneSearchYelp);
 router.get('/getAuth2Token', controller.api.getAuth2Token);
 router.get('/map', controller.api.map);
 
+// router.get('/*', controller.default);
+
 module.exports = router;

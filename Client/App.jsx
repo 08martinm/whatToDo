@@ -21,6 +21,7 @@ class App extends React.Component {
             <li><Link to='/home'>Home</Link></li>
             <li><Link to='/'>App</Link></li>
             <li><Link to='/Login'>Login</Link></li>
+            <li><Link to='/Signup'>Sign Up</Link></li>
           </ul>
           <ul className="nav navbar-nav navbar-right">
             <li id="brandFont"><Link to='/home'>DayPlanner.io</Link></li>

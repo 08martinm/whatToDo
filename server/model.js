@@ -13,24 +13,41 @@ db.connect(function(error) {
 
 module.exports = {
   signup: {
+    permitSignup: function(data) {
+      return query('SELECT username FROM Users WHERE Users.username = ' + "'" + data.username + "'")
+        .then(function(pass) {
+          console.log('Model signup.permitSignup function returned', pass);
+          if (pass.length === 0) {
+            return true;
+          }
+          return false;
+        })
+    },
+
     post: function(data) {
       //check database for existing username
         //if username is available add to our database
         //if username is unavailable send status back to controller
-      query()
+      return query("INSERT INTO Users (username, password) VALUES ('" + 
+                    data.username + "', '" + data.password + "')")
+      //The below can be commented out or deleted when finished
+      .then(query("SELECT * FROM Users WHERE Users.username = '" + data.username + "'")
+      .then(function(result) {
+        console.log('result from model signup.post is', result);
+        return result;
+      }))
     }
   },
   
   login: {
     permitLogin: function(data) {
-      console.log(data, '^^^^^^^^^^^^^^^');
-      query('SELECT password FROM Users WHERE Users.username = ' + "'" + data.user + "'")
-        .then(function(pass) {
-          console.log('Model login.permitLogin function returned', pass);
-          if (pass === data.pass) {
-            return true;
+      return query('SELECT * FROM Users WHERE Users.username = ' + "'" + data.username + "'")
+        .then(function(user) {
+          console.log('Model login.permitLogin function returned', data);
+          if (user.length === 0) {
+            return false;
           }
-          return false;
+          return user;
         })
     }
   },
@@ -52,11 +69,13 @@ module.exports = {
 
   list: {
     post: function(data) {
-      var parsed = JSON.parse(data);
+      console.log('we made it into model list.post; about to query db');
       var queryStr = "INSERT INTO Itineraries (name, activities) \
-      VALUES ('" + parsed.name + "', '" + parsed.list + "')";
+      VALUES ('" + data.name + "', '" + data.list + "')";
 
-      return query(queryStr)
+      return query(queryStr).then(function(res) {
+        console.log('res from model list.post after query is', res);
+      })
     }
   },
 

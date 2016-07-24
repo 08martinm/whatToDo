@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import { Router, Route, Link, browserHistory, IndexRoute  } from 'react-router';
 
 
-class Login extends React.Component {
-
-
+class Signup extends React.Component {
+  
         constructor(props) {
         super(props);
         this.state = {username: '', password: ''}
@@ -43,7 +42,7 @@ class Login extends React.Component {
           window.location = xhr.responseText;
         }
       };
-      xhr.open("POST", "http://127.0.0.1:3000/login");
+      xhr.open("POST", "http://127.0.0.1:3000/signup");
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.send(data);
     }
@@ -62,25 +61,38 @@ class Login extends React.Component {
               col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
             <form className="form-horizontal col-xs-8 col-xs-offset-2">
               <fieldset>
+
                 <div className="form-group">
                   <label className="control-label">Username</label>
                   <div>
                     <input type="text" className="form-control" placeholder="Username" onChange={this.handleUsernameChange}/>
                   </div>
                 </div>
+
                 <div className="form-group">
                   <label className="control-label">Password</label>
                   <div>
                     <input type="password" className="form-control" placeholder="Password" onChange={this.handlePasswordChange}/>
                   </div>
                 </div>
-                <button className='signIn btn btn-success' type='button' onClick={this.handleSubmit}>Sign In!</button>
-                <div className="row">
-                  <label className="control-label">Not a member?</label>
+
+                <div className="form-group">
+                  <label className="control-label">Confirm Password</label>
+                  <div>
+                    <input type="password" className="form-control" placeholder="Password" onChange={this.handlePasswordChange}/>
+                  </div>
                 </div>
+
+                <button className='signIn btn btn-success' type='button' onClick={this.handleSubmit}>Sign Up!</button>
+
                 <div className="row">
-                  <Link to='/Signup'><button className='signUp btn btn-danger'>Sign Up!</button></Link>
+                  <label className="control-label">Already a member?</label>
                 </div>
+
+                <div className="row">
+                  <Link to='/Login'><button className='signUp btn btn-danger'>Login!</button></Link>
+                </div>
+
               </fieldset>
             </form>
           </div>
@@ -89,4 +101,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default Signup;
