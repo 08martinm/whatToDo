@@ -40,7 +40,14 @@ class Login extends React.Component {
       xhr.withCredentials = false;
       xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-          window.location = xhr.responseText;
+          if (!!xhr.responseText) {
+            console.log('req.sessionID from inside Login.jsx is', xhr.responseText);
+            window.session = xhr.responseText;
+            console.log('window.session is', window.session);
+            window.location = '/home';
+          } else {
+            console.log('no redirect from sign in button');
+          }
         }
       };
       xhr.open("POST", "http://127.0.0.1:3000/login");

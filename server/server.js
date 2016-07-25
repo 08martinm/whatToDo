@@ -3,6 +3,9 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var router = require('./router.js');
 var session = require('express-session');
+// var session = require('client-sessions');
+// var cookieParser = require('cookie-parser');
+
 // var partials = require('express-partials');
 
 
@@ -14,11 +17,34 @@ var port = 3000;
 // var options = {presets: ['react', 'es2016']}
 // app.engine('jsx', require('express-react-views').createEngine(options));
 // app.use(partials());
+
+// app.use(cookieParser('foo'));
 app.use(session({
-  secret: 'ldsfkjfqwrpweoiuv45wlkjsf48zjvfasdlk',
-  resave: false,
-  saveUninitialized: true
+  secret: 'foo',
+  resave: true,
+  domain: 'http://127.0.0.1:3000',
+  saveUninitialized: false,
+  cookie: { 
+    maxAge: 1000 * 60 * 30,
+    httpOnly: false,
+    secure: true
+  }
+  // path: '/*'
 }))
+
+// app.use(session({
+//   cookieName: 'session',
+//   secret: 'random_string_goes_here',
+//   duration: 30 * 60 * 1000,
+//   activeDuration: 5 * 60 * 1000,
+//   domain: 'http://127.0.0.1:3000'
+// }));
+
+// app.use(function(req, res, next) {
+//   var session = req.session;
+//   var sessionID = req.sessionID;
+//   next();
+// })
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({

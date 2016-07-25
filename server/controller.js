@@ -3,7 +3,7 @@ var bluebird = require('bluebird');
 var bcrypt = require('bcrypt-nodejs');
 var path = require('path');
 var util = require('./lib/utility.js');
-var session = require('express-session');
+// var session = require('express-session');
 
 
 module.exports = {
@@ -18,6 +18,17 @@ module.exports = {
   //     }
   //   })
   // },
+  loggedIn: function(req, res) {
+    // console.log('req.session is', req.session);
+    // console.log('req.session.user is', req.session.user);
+    console.log('req.userID is', req.userID);
+
+    if (req.session && req.session.user) {
+      res.status(200).send('true');
+    } else {
+      res.status(200).send('false');
+    }
+  },
 
   signup: {
     get: function(req, res) {
@@ -27,6 +38,7 @@ module.exports = {
       var parsed = JSON.parse(req.body.data);
       var username = parsed.username;
       var password = parsed.password;
+
       model.signup.permitSignup(parsed)
       .then(function(bool) {
         console.log('result from controller signup.post is', bool);
@@ -35,8 +47,11 @@ module.exports = {
             model.signup.post({username: username, password: hash})
             .then(function(user) {
               console.log('user in controller signup.post.bcrypt is', user);
-              res.status(200).send('/home')
               util.createSession(req, res, user);
+              setTimeout(function() {
+                console.log('inside setTimeout; !!req.session is', !!req.session);
+                res.status(200).send('/home')
+              }, 500);
             })
           })
         } else {
@@ -48,7 +63,7 @@ module.exports = {
   
   login: {
     get: function(req, res) {
-      res.redirect('./index.html'); /* REDIRECT if static page; RENDER if new view */
+      // res.redirect('./index.html');  REDIRECT if static page; RENDER if new view 
     },
     post: function(req, res) {
       console.log('req.body from controller login.post is', req.body);
@@ -56,11 +71,9 @@ module.exports = {
       var username = parsed.username;
       var password = parsed.password;
 
+
       model.login.permitLogin(parsed)
       .then(function(user) {
-        console.log('result from controller login.post (user) is', user);
-        console.log('password is', password);
-        console.log('\ndatabase pw is', user[0]['password']);
         if (user.length === 0) {
           res.status(500).send('Something broke! Please try again.');
         } else {
@@ -68,8 +81,18 @@ module.exports = {
             console.log('match is', match);
             if (match) {
               util.createSession(req, res, user);
+              // req.session.user = user;
+              setTimeout(function() {
+                // console.log('inside setTimeout; req.session is', req.session);
+                // console.log('inside setTimeout; req.session is', req.session);
+                console.log('inside setTimeout; req.sessionID is', req.sessionID);
+                // console.log('store.all is', req.store.all);
+
+                // res.send('req.session.user');
+                // res.status(200).send(req.session.user)
+                res.status(200).send(req.sessionID)
+              }, 1000);
               console.log('should render main page');
-              res.status(200).send('/home');
             } else {
               console.log('password does not match');
               res.status(500).send('Password does not match');
