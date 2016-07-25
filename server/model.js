@@ -25,12 +25,10 @@ module.exports = {
     },
 
     post: function(data) {
-      username is unavailable send status back to controller
       return query("INSERT INTO Users (username, password) VALUES ('" + 
                     data.username + "', '" + data.password + "')")
       .then(query("SELECT * FROM Users WHERE Users.username = '" + data.username + "'")
       .then(function(result) {
-        console.log('result from model signup.post is', result);
         return result;
       }))
     }
@@ -40,7 +38,6 @@ module.exports = {
     permitLogin: function(data) {
       return query('SELECT * FROM Users WHERE Users.username = ' + "'" + data.username + "'")
         .then(function(user) {
-          console.log('Model login.permitLogin function returned', data);
           if (user.length === 0) {
             return false;
           }
@@ -66,12 +63,10 @@ module.exports = {
 
   list: {
     post: function(data) {
-      console.log('we made it into model list.post; about to query db');
       var queryStr = "INSERT INTO Itineraries (name, activities) \
       VALUES ('" + data.name + "', '" + data.list + "')";
 
       return query(queryStr).then(function(res) {
-        console.log('res from model list.post after query is', res);
       })
     }
   },
@@ -117,7 +112,6 @@ module.exports = {
         //Sending information back to Client 
         request(options, function (error, response, body) {
           if (error) throw new Error(error);
-          //console.log("AutocompleteYelp sending back: ", body);
           res.send(body);
         });
 
@@ -141,7 +135,6 @@ module.exports = {
 
         request(options, function (error, response, body) {
           if (error) throw new Error(error);
-          console.log("YelpAPI: Sending ReviewsYelp result. ")
           res.send(body);
         });
       },
@@ -166,7 +159,6 @@ module.exports = {
 
         request(options, function (error, response, body) {
           if (error) throw new Error(error);
-          console.log("YelpAPI: Sending BusinessYelp result. ")
           res.send(body);
         });
 
@@ -192,7 +184,6 @@ module.exports = {
 
         request(options, function (error, response, body) {
           if (error) throw new Error(error);
-          console.log("YelpAPI: Sending PhoneSearchYelp result. ")
           res.send(body);
         });
 
@@ -221,7 +212,6 @@ module.exports = {
 
         request(options, function (error, response, body) {
           if (error) throw new Error(error);
-          console.log("YelpAPI: Sending getAuth2Token ")
           res.send(body);
         });
       }
