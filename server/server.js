@@ -7,6 +7,12 @@ var session = require('express-session');
 var app = express();
 var port = 3000;
 
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use('/', router);
+
 app.use(session({
   secret: 'foo',
   resave: true,
@@ -18,12 +24,6 @@ app.use(session({
     secure: true
   }
 }))
-
-app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-app.use('/', router);
 
 //Start Enable CORS: 
 //http://enable-cors.org/server_expressjs.html
