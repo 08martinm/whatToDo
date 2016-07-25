@@ -25,12 +25,9 @@ module.exports = {
     },
 
     post: function(data) {
-      //check database for existing username
-        //if username is available add to our database
-        //if username is unavailable send status back to controller
+      username is unavailable send status back to controller
       return query("INSERT INTO Users (username, password) VALUES ('" + 
                     data.username + "', '" + data.password + "')")
-      //The below can be commented out or deleted when finished
       .then(query("SELECT * FROM Users WHERE Users.username = '" + data.username + "'")
       .then(function(result) {
         console.log('result from model signup.post is', result);
